@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Alam Printing Press, Bikfaya, Lebanon</title>
+  <meta name="description" content="Start a print job with Alam Printing Press. Call, email or visit us in the Bikfaya Industrial Zone, Maten, Lebanon." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="regmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="12" cy="12" r="6.4" />
+        <path d="M12 1.5v21M1.5 12h21" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Alam Printing Press — home">
+        <svg class="logo__mark" viewBox="0 0 36 36" aria-hidden="true">
+          <path d="M17 17V3.05A15 15 0 0 0 3.05 17Z" fill="#ec008c"/>
+          <path d="M19 17h13.95A15 15 0 0 0 19 3.05Z" fill="#ffe600"/>
+          <path d="M17 19H3.05A15 15 0 0 0 17 32.95Z" fill="#00aeef"/>
+          <path d="M19 19v13.95A15 15 0 0 0 32.95 19Z" fill="currentColor" opacity=".9"/>
+          <path d="M17.3 0h1.4v36h-1.4zM0 17.3h36v1.4H0z" fill="currentColor"/>
+        </svg>
+        <span class="logo__text">
+          <span class="logo__name">Alam</span>
+          <span class="logo__sub">Printing Press</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" data-nav>
+        <a class="site-nav__link" href="index.html">Home</a>
+        <a class="site-nav__link" href="work.html">What we print</a>
+        <a class="site-nav__link" href="about.html">About</a>
+        <a class="site-nav__link" href="contact.html" aria-current="page">Contact</a>
+        <a class="btn btn--solid" href="contact.html">Start a job <span class="btn__arrow">→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ PAGE HERO ============ -->
+    <section class="page-hero section--ink">
+      <div class="halftone" aria-hidden="true"></div>
+      <div class="container">
+        <p class="page-hero__kicker mono" data-hero-fade>
+          <svg class="reg-mark" aria-hidden="true"><use href="#regmark"/></svg>
+          Bikfaya Industrial Zone, Maten
+        </p>
+        <h1 class="display display--hero" data-page-title>
+          <span class="plate-line" data-plate-line>
+            <span class="plate-line__base">Start a job.</span>
+            <span class="plate plate--c" aria-hidden="true">Start a job.</span>
+            <span class="plate plate--m" aria-hidden="true">Start a job.</span>
+            <span class="plate plate--y" aria-hidden="true">Start a job.</span>
+          </span>
+        </h1>
+        <p class="lead" data-hero-fade>
+          Call, write, or walk in. Bring a file, a sketch, or just the idea —
+          we'll take it from there.
+        </p>
+      </div>
+      <div class="color-strip" style="position:absolute;left:0;right:0;bottom:0" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section section--paper">
+      <div class="container contact-grid">
+        <div data-reveal>
+          <div class="contact-block">
+            <p class="contact-block__label">Phones</p>
+            <div data-phone-lines></div>
+          </div>
+
+          <div class="contact-block">
+            <p class="contact-block__label">Email</p>
+            <a class="contact-email" data-email href="#"></a>
+          </div>
+
+          <div class="contact-block">
+            <p class="contact-block__label">Where we are</p>
+            <p data-address style="font-size:1.05rem;font-weight:640;line-height:1.5"></p>
+            <p class="contact-form__hint" style="margin-top:0.5rem">
+              <a data-map-link href="#" target="_blank" rel="noopener" style="text-decoration:underline">Open in Google Maps ↗</a>
+            </p>
+          </div>
+
+          <div class="contact-block">
+            <p class="contact-block__label">Follow the work</p>
+            <div class="site-footer__links" data-socials style="flex-direction:row;gap:1.5rem"></div>
+          </div>
+        </div>
+
+        <div data-reveal>
+          <form class="contact-form" data-contact-form>
+            <p class="eyebrow" style="margin-bottom:0.2rem">Job ticket</p>
+            <div class="form-field">
+              <label for="cf-name">Your name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="form-field">
+              <label for="cf-company">Company <span style="opacity:.5">(optional)</span></label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization" />
+            </div>
+            <div class="form-field">
+              <label for="cf-message">What do you need printed?</label>
+              <textarea id="cf-message" name="message" required placeholder="e.g. 500 business cards, matte laminated, two names"></textarea>
+            </div>
+            <button class="btn btn--solid" type="submit">Send it over <span class="btn__arrow">→</span></button>
+            <p class="contact-form__hint">
+              This opens your email app with the details filled in — nothing is
+              sent until you press send. Prefer the phone? Even better.
+            </p>
+          </form>
+
+          <iframe
+            class="map-frame"
+            style="margin-top:1.3rem"
+            data-map
+            title="Alam Printing Press location on Google Maps"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-footer></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/content.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

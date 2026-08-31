@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What We Print — Alam Printing Press</title>
+  <meta name="description" content="Business cards, books, brochures, packaging, paper bags, labels and more — every product line printed by Alam Printing Press in Bikfaya, Lebanon." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="regmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="12" cy="12" r="6.4" />
+        <path d="M12 1.5v21M1.5 12h21" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Alam Printing Press — home">
+        <svg class="logo__mark" viewBox="0 0 36 36" aria-hidden="true">
+          <path d="M17 17V3.05A15 15 0 0 0 3.05 17Z" fill="#ec008c"/>
+          <path d="M19 17h13.95A15 15 0 0 0 19 3.05Z" fill="#ffe600"/>
+          <path d="M17 19H3.05A15 15 0 0 0 17 32.95Z" fill="#00aeef"/>
+          <path d="M19 19v13.95A15 15 0 0 0 32.95 19Z" fill="currentColor" opacity=".9"/>
+          <path d="M17.3 0h1.4v36h-1.4zM0 17.3h36v1.4H0z" fill="currentColor"/>
+        </svg>
+        <span class="logo__text">
+          <span class="logo__name">Alam</span>
+          <span class="logo__sub">Printing Press</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" data-nav>
+        <a class="site-nav__link" href="index.html">Home</a>
+        <a class="site-nav__link" href="work.html" aria-current="page">What we print</a>
+        <a class="site-nav__link" href="about.html">About</a>
+        <a class="site-nav__link" href="contact.html">Contact</a>
+        <a class="btn btn--solid" href="contact.html">Start a job <span class="btn__arrow">→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ PAGE HERO ============ -->
+    <section class="page-hero section--ink">
+      <div class="halftone" aria-hidden="true"></div>
+      <div class="container">
+        <p class="page-hero__kicker mono" data-hero-fade>
+          <svg class="reg-mark" aria-hidden="true"><use href="#regmark"/></svg>
+          Product lines — <span data-cat-count>17</span> and counting
+        </p>
+        <h1 class="display display--hero" data-page-title>
+          <span class="plate-line" data-plate-line>
+            <span class="plate-line__base">The catalogue.</span>
+            <span class="plate plate--c" aria-hidden="true">The catalogue.</span>
+            <span class="plate plate--m" aria-hidden="true">The catalogue.</span>
+            <span class="plate plate--y" aria-hidden="true">The catalogue.</span>
+          </span>
+        </h1>
+        <p class="lead" data-hero-fade>
+          Everything below is printed, finished and packed in our own shop.
+          Don't see your job? Ask — odd requests are half the fun.
+        </p>
+      </div>
+      <div class="color-strip" style="position:absolute;left:0;right:0;bottom:0" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ GRID + FILTERS ============ -->
+    <section class="section section--paper">
+      <div class="container">
+        <div class="filters" role="group" aria-label="Filter product lines" data-filters></div>
+        <div class="card-grid" data-work-grid></div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="section cta">
+      <div class="halftone" aria-hidden="true"></div>
+      <div class="container cta__inner">
+        <h2 class="display display--lg" data-reveal>Don't see it?<br />We'll print it.</h2>
+        <p class="cta__note" data-reveal>Special requests are our favourite requests.</p>
+        <div class="cta__actions" data-reveal>
+          <a class="btn btn--solid" href="contact.html">Ask about a job <span class="btn__arrow">→</span></a>
+          <a class="btn btn--ghost" href="tel:+9614925773">Call +961 4 925 773</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-footer></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/content.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
