@@ -27,6 +27,15 @@
     return "tel:" + number.replace(/[^+\d]/g, "");
   }
 
+  function escapeHTML(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   var REGMARK =
     '<svg class="reg-mark" aria-hidden="true"><use href="#regmark"/></svg>';
 
@@ -181,16 +190,16 @@
 
   function cardHTML(cat) {
     return (
-      '<article class="card" data-card data-tag="' + cat.tag + '">' +
+      '<a class="card card--link" data-card data-tag="' + cat.tag + '" href="product.html?slug=' + encodeURIComponent(cat.slug) + '" aria-label="View ' + escapeHTML(cat.title) + ' details">' +
       '  <div class="card__media">' +
-      '    <img src="' + cat.image + '" alt="' + cat.title + ' printed by Alam Printing Press" loading="lazy" />' +
+      '    <img src="' + cat.image + '" alt="' + escapeHTML(cat.title) + ' printed by Alam Printing Press" loading="lazy" />' +
       "  </div>" +
       '  <div class="card__body">' +
       '    <span class="card__tag">' + filterLabel(cat.tag) + "</span>" +
-      '    <h3 class="card__title">' + cat.title + "</h3>" +
-      '    <p class="card__blurb">' + cat.blurb + "</p>" +
+      '    <h3 class="card__title">' + escapeHTML(cat.title) + '<span class="card__arrow" aria-hidden="true">↗</span></h3>' +
+      '    <p class="card__blurb">' + escapeHTML(cat.blurb) + "</p>" +
       "  </div>" +
-      "</article>"
+      "</a>"
     );
   }
 
@@ -248,12 +257,137 @@
         if (hasGsap) {
           window.gsap.fromTo(
             shown,
-            { autoAlpha: 0, y: 22 },
-            { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.04, ease: "power3.out", overwrite: true }
+            { autoAlpha: 0 },
+            { autoAlpha: 1, duration: 0.4, stagger: 0.035, ease: "power2.out", overwrite: true }
           );
         }
       });
     });
+  }
+
+  /* ---------- product detail ---------- */
+
+  function renderProductDetail() {
+    var page = qs("[data-product-page]");
+    if (!page) return;
+
+    var slug = new URLSearchParams(window.location.search).get("slug") || "";
+    var cat = C.categories.find(function (item) { return item.slug === slug; });
+    var product = window.PRODUCTS && window.PRODUCTS[slug];
+
+    if (!cat || !product) {
+      page.setAttribute("data-product-missing", "");
+      page.innerHTML =
+        '<section class="product-missing section--paper">' +
+        '  <div class="container product-missing__inner">' +
+        '    <p class="mono">404 / PRODUCT NOT FOUND</p>' +
+        '    <h1 class="display display--md">That sheet came up blank.</h1>' +
+        '    <p>The product may have moved, or the link is incomplete.</p>' +
+        '    <a class="btn btn--solid" href="work.html">Back to what we print <span class="btn__arrow">→</span></a>' +
+        "  </div>" +
+        "</section>";
+      document.title = "Product not found — Alam Printing Press";
+      return;
+    }
+
+    document.title = cat.title + " — Alam Printing Press";
+    var metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) metaDescription.setAttribute("content", product.description);
+
+    qsa("[data-product-title]").forEach(function (el) { el.textContent = cat.title; });
+    var categoryEl = qs("[data-product-category]");
+    if (categoryEl) categoryEl.textContent = filterLabel(cat.tag);
+    var descriptionEl = qs("[data-product-description]");
+    if (descriptionEl) descriptionEl.textContent = product.description;
+    var imageEl = qs("[data-product-image]");
+    if (imageEl) {
+      imageEl.src = cat.image;
+      imageEl.alt = cat.title + " printed by Alam Printing Press";
+    }
+
+    var variants = product.variants || [];
+    var choices = qs("[data-product-choices]");
+    var summary = qs("[data-order-summary]");
+    var price = qs("[data-product-price]");
+    var orderLink = qs("[data-whatsapp-order]");
+    var note = qs("[data-product-note]");
+
+    function summaryRow(label, value) {
+      if (!value) return "";
+      return '<div class="order-summary__row"><dt>' + escapeHTML(label) + '</dt><dd>' + escapeHTML(value) + "</dd></div>";
+    }
+
+    function whatsappHref(variant) {
+      var phone = (C.contact.whatsapp || C.contact.phones[1].number).replace(/\D/g, "");
+      var lines = [
+        "Hello Alam Printing Press,",
+        "",
+        variants.length ? "I'd like to order:" : "I'd like a quote for:",
+        "Product: " + cat.title
+      ];
+
+      if (variant) {
+        lines.push("Specification: " + variant.label);
+        if (variant.quantity) lines.push("Quantity: " + variant.quantity);
+        if (variant.size) lines.push("Size: " + variant.size);
+        if (variant.type) lines.push("Type: " + variant.type);
+        lines.push("Listed price: $" + variant.price);
+      }
+
+      lines.push("", variants.length ? "Please confirm availability and the final order details. Thank you." : "Please help me choose the right specifications. Thank you.");
+      return "https://wa.me/" + phone + "?text=" + encodeURIComponent(lines.join("\n"));
+    }
+
+    function selectVariant(index) {
+      var variant = variants[index];
+      if (!variant) return;
+      price.textContent = "$" + variant.price;
+      summary.innerHTML =
+        summaryRow("Product", cat.title) +
+        summaryRow("Specification", variant.label) +
+        summaryRow("Quantity", variant.quantity) +
+        summaryRow("Size", variant.size) +
+        summaryRow("Type", variant.type);
+      orderLink.href = whatsappHref(variant);
+    }
+
+    if (variants.length) {
+      choices.innerHTML =
+        '<fieldset class="variant-fieldset"><legend class="mono">Choose a specification</legend>' +
+        variants.map(function (variant, index) {
+          return (
+            '<label class="variant-choice">' +
+            '  <input type="radio" name="product-variant" value="' + index + '"' + (index === 0 ? " checked" : "") + " />" +
+            '  <span class="variant-choice__content"><span class="variant-choice__name">' + escapeHTML(variant.label) + '</span><span class="variant-choice__meta">Qty. ' + escapeHTML(variant.quantity) + ' · $' + variant.price + "</span></span>" +
+            '  <span class="variant-choice__mark" aria-hidden="true"></span>' +
+            "</label>"
+          );
+        }).join("") +
+        "</fieldset>";
+
+      qsa('input[name="product-variant"]', choices).forEach(function (input) {
+        input.addEventListener("change", function () { selectVariant(parseInt(input.value, 10)); });
+      });
+      if (note) note.textContent = "Listed price for the selected specification. Final details are confirmed with the press on WhatsApp.";
+      selectVariant(0);
+    } else {
+      choices.innerHTML = '<div class="made-to-order"><span class="mono">Made to specification</span><p>' + escapeHTML(product.note || "This product is quoted according to your requirements.") + "</p></div>";
+      price.textContent = "Let’s quote it";
+      price.classList.add("product-order__price--quote");
+      summary.innerHTML = summaryRow("Product", cat.title) + summaryRow("Pricing", "Quoted to specification");
+      orderLink.href = whatsappHref(null);
+      orderLink.innerHTML = '<span class="btn__label"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7l-4.2 1.1 1.1-4A8 8 0 1 1 20 11.6Z"/><path d="M8.2 7.7c.2-.4.4-.4.7-.4h.4c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.6.8c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.2.6 0l.8-1c.2-.2.4-.3.6-.2l1.9.9c.3.1.4.3.4.5 0 .3-.2 1.3-.8 1.8-.5.5-1.2.8-2.1.6-1.1-.2-2.5-.7-4-2-1.2-1-2.1-2.3-2.6-3.5-.5-1.3-.1-2.4.4-3Z"/></svg>Request a quote on WhatsApp</span><span class="btn__arrow">↗</span>';
+      if (note) note.textContent = "Tell us what you have in mind and we’ll help define the right format, materials and quantity.";
+    }
+
+    var related = C.categories.filter(function (item) { return item.slug !== slug && item.tag === cat.tag; }).slice(0, 3);
+    if (related.length < 3) {
+      C.categories.forEach(function (item) {
+        if (item.slug !== slug && !related.includes(item) && related.length < 3) related.push(item);
+      });
+    }
+    var relatedGrid = qs("[data-related-grid]");
+    if (relatedGrid) relatedGrid.innerHTML = related.map(cardHTML).join("");
   }
 
   /* ---------- capabilities ---------- */
@@ -457,6 +591,8 @@
   function initAnimations() {
     var words = splitManifesto();
 
+    if (qs("[data-product-missing]")) return;
+
     if (!hasGsap) {
       /* no GSAP (offline / reduced motion): show everything as-is */
       words.forEach(function (w) { w.classList.add("is-inked"); });
@@ -525,11 +661,10 @@
         once: true,
         onEnter: function (batch) {
           gsap.from(batch, {
-            y: 50,
             autoAlpha: 0,
-            duration: 0.8,
-            stagger: 0.07,
-            ease: "power3.out",
+            duration: 0.65,
+            stagger: 0.055,
+            ease: "power2.out",
             overwrite: true,
           });
         },
@@ -593,6 +728,7 @@
   renderMarquee();
   renderFeaturedGrid();
   renderWorkGrid();
+  renderProductDetail();
   renderCapabilities();
   renderProcess();
   renderStats();

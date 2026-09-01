@@ -15,6 +15,7 @@ window.CONTENT = {
   },
 
   contact: {
+    whatsapp: "+961 3 843 810",
     phones: [
       { label: "Press office", number: "+961 4 925 773" },
       { label: "Mobile", number: "+961 3 843 810" },
@@ -29,6 +30,7 @@ window.CONTENT = {
     socials: [
       { label: "Facebook", url: "https://www.facebook.com/Alamprintingpress/" },
       { label: "Instagram", url: "https://instagram.com/alamprintingpress" },
+      { label: "TikTok", url: "https://www.tiktok.com/@alamprinting" },
     ],
   },
 
@@ -268,7 +270,7 @@ window.CONTENT = {
     },
     {
       title: "Service",
-      text: "You talk to the people who actually run your job — not a call centre, not a form that goes nowhere.",
+      text: "You talk to the people who actually run your job — not a call center, not a form that goes nowhere.",
     },
     {
       title: "Craft",
